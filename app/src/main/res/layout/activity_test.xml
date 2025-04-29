@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".test">
+
+    <TextView
+        android:id="@+id/testText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The band released their debut album Count Your Blessings in October 2006 in the United Kingdom and in August 2007 in the United States. They rented a house in the country to write songs, but easily became distracted. They then recorded the album in inner-city Birmingham, a process which was infamous for their excessive and dangerous drinking. During this period drummer Nicholls summarised it saying 'we were out every night, just being regular 18-year-olds' Critics panned the album adding to the strongly polarised responses the band were already seeing from the public."
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.072" />
+
+    <TextView
+        android:id="@+id/summaryTEST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="summary"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testText" />
+
+    <Button
+        android:id="@+id/buttonTEST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="summary"
+        app:layout_constraintBottom_toTopOf="@+id/summaryTEST"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

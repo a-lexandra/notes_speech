@@ -10,6 +10,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class create_account extends AppCompatActivity {
 
+    //flatter -> android studio
+    //dart programming language
+    //created a web page i think
+    //wants to create an android app
+    //will be excused from english classes and dirigentie and tic
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

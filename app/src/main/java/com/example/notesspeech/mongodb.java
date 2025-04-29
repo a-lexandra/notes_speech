@@ -5,6 +5,8 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
 //import com.mongodb.ServerApi;
 //import com.mongodb.ServerApiVersion;
+import com.mongodb.ServerApi;
+import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -20,11 +22,9 @@ import org.bson.Document;
 public class mongodb {
 
 
-
-
-     /*public class MongoClientConnectionExample {
-        public static void main(String[] args) {
-            String connectionString = "mongodb+srv://malexandraneagu:<db_password>@cluster0.yymzn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+     public static class MongoClientConnectionExample {
+        public void main(String[] args) {
+            String connectionString = "mongodb+srv://malexandraneagu:<yzQwJ30m9DylPLnC>@cluster0.yymzn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
             ServerApi serverApi = ServerApi.builder()
                     .version(ServerApiVersion.V1)
@@ -47,7 +47,7 @@ public class mongodb {
                 }
             }
         }
-    }*/
+    }
 
 
 
@@ -59,9 +59,9 @@ public class mongodb {
 
 
     public static void insertDocument() {
-        MongoClient mongoClient = MongoDBConnection.getMongoClient();
-        MongoDatabase database = mongoClient.getDatabase("mydb");
-        MongoCollection<Document> collection = database.getCollection("mycollection");
+        MongoClient mongoClient = mongodb.getMongoClient();
+        MongoDatabase database = mongoClient.getDatabase("people");
+        MongoCollection<Document> collection = database.getCollection("user");
 
         Document document = new Document("name", "John Doe")
                 .append("email", "johndoe@example.com")
@@ -71,7 +71,7 @@ public class mongodb {
 
 
         mongoClient.close();
-    }
-    */
+    }*/
+
 
 }

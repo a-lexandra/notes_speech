@@ -1,51 +1,112 @@
 package com.example.notesspeech;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 public class chat_gpt extends AppCompatActivity {
-
+    private OpenAIService openAIService;
     private TextView text;
-
-    //chatgpt summary
     private TextView summary;
-    private String stringURLEndPoint = "https://api.openai.com/v1/chat/completions";
+    /*private String stringURLEndPoint = "https://api.openai.com/v1/chat/completions";
     private String stringAPIKey = "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";
-    private String stringOutput="";
+    private String stringOutput="";*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_gpt);
+        //setContentView(R.layout.activity_chat_gpt);
+        setContentView(R.layout.activity_test);
 
-        summary = findViewById(R.id.summary);
+        openAIService = new OpenAIService();
+        //View view = getLayoutInflater().inflate(R.layout.activity_main2, null);
+        //text = (EditText) view.findViewById(R.id.speech);
+        text = (TextView) findViewById(R.id.summaryTEST);
+        //summary = findViewById(R.id.summary);
+        summary = findViewById(R.id.summaryTEST);
 
-        View view = getLayoutInflater().inflate(R.layout.activity_main2, null);
-        text = (TextView) view.findViewById(R.id.speech);
+
+        Button buttonTest = findViewById(R.id.buttonTEST);
+
+        buttonTest.setOnClickListener(v -> {
+            String msg = String.valueOf(text);
+            if(!msg.isEmpty()){
+                openAIService.sendMessage(msg, new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        Log.e("OpenAI-Error", "API call failed", e);
+                        runOnUiThread(() -> summary.setText("Error: " + e.getMessage()));
+                    }
+
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        String responseBody = response.body().string();
+                        if (response.isSuccessful()){
+
+                            Log.d("OpenAI-Response", responseBody);
+                            runOnUiThread(() -> {
+                                summary.setText(parseResponse(responseBody));
+                            });
+                        } else {
+                            Log.e("OpenAI-Error", "API Error: " + response.code() + " Body: " + responseBody);
+                                runOnUiThread(() -> summary.setText("API Error: " + response.code()));
+                        }
+
+                        //String responseBody = response.body().string();
+                        //runOnUiThread(()-> summary.setText(parseResponse(responseBody)));
+                    }
+                });
+            }
+        });
     }
 
-    public void chatGPT(View view){
+
+    private String parseResponse(String responseBody){
+        try{
+            JsonObject jsonObject = new JsonObject();
+            JsonArray choices = jsonObject.getAsJsonArray("choices");
+
+            if(choices != null && choices.size()>0){
+                return choices.get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
+            }
+        } catch (Exception e){
+            return "Error parsing response";
+        }
+        return "No response from AI";
+    }
+
+    /*public void chatGPT(View view){
         JSONObject jsonObject = new JSONObject();
 
         try {
@@ -105,5 +166,5 @@ public class chat_gpt extends AppCompatActivity {
         jsonObjectRequest.setRetryPolicy(retryPolicy);
 
         Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
-    }
+    }*/
 }
