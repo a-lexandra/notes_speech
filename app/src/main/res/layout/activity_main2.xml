@@ -11,6 +11,7 @@
         android:id="@+id/speech"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="The band released their debut album Count Your Blessings in October 2006 in the United Kingdom and in August 2007 in the United States. They rented a house in the country to write songs, but easily became distracted. They then recorded the album in inner-city Birmingham, a process which was infamous for their excessive and dangerous drinking. During this period drummer Nicholls summarised it saying 'we were out every night, just being regular 18-year-olds' Critics panned the album adding to the strongly polarised responses the band were already seeing from the public."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

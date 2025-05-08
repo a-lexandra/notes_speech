@@ -1,9 +1,12 @@
 package com.example.notesspeech;
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 public class mysql {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
@@ -12,4 +15,5 @@ public class mysql {
         Statement st = con.createStatement();
         System.out.println("Connection success");
     }
+
 }
