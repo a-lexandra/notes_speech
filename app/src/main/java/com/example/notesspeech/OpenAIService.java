@@ -1,4 +1,4 @@
-package com.example.notesspeech;
+/*package com.example.notesspeech;
 
 import android.os.Bundle;
 import android.view.View;
@@ -51,4 +51,4 @@ public class OpenAIService extends AppCompatActivity {
 
         client.newCall(request).enqueue(callback);
     }
-}
+}*/

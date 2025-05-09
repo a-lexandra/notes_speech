@@ -18,10 +18,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -37,13 +39,13 @@ public class MainActivity2 extends AppCompatActivity {
     private final int record = 1;
     ImageView image;
     TextView text;
-    Button summaryBtn;
+    Button summaryBtn, save;
 
     //chatgpt summary
-    private TextView summary = findViewById(R.id.summary);
+    /*private TextView summary = findViewById(R.id.summary);
     private String stringURLEndPoint = "https://api.openai.com/v1/chat/completions";
     private String stringAPIKey = "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";
-    private String stringOutput = "";
+    private String stringOutput = "";*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +55,54 @@ public class MainActivity2 extends AppCompatActivity {
         text = findViewById(R.id.speech);
         image = findViewById(R.id.image);
         summaryBtn = findViewById(R.id.summaryBtn);
+        save = findViewById(R.id.save);
 
-        summaryBtn.setOnClickListener(new View.OnClickListener() {
+        /*summaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent start = new Intent(MainActivity2.this, chat_gpt.class);
                 startActivity(start);
             }
+        });*/
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //text = String.valueOf(inputText.getText());
+
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                String url="http://10.200.3.77/login/text.php";
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.equals("success")){
+                                    Toast.makeText(getApplicationContext(), "Successfully saved text", Toast.LENGTH_SHORT).show();
+
+                                } else {
+                                    //errorMsg.setText(response);
+                                    //errorMsg.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //errorMsg.setText(error.getLocalizedMessage());
+                        //errorMsg.setVisibility(View.VISIBLE);
+                    }
+                }){
+                    protected Map<String, String> getParams(){
+                        Map<String, String> paramV = new HashMap<>();
+                        paramV.put("text", String.valueOf(text));
+                        return paramV;
+                    }
+                };
+                queue.add(stringRequest);
+            }
         });
 
-        /*image.setOnClickListener(new View.OnClickListener() {
+        image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -96,7 +136,8 @@ public class MainActivity2 extends AppCompatActivity {
                 break;
             }
         }
-    }*/
+    }
+
 
 
 
@@ -168,4 +209,3 @@ public class MainActivity2 extends AppCompatActivity {
         Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
     }*/
     }
-}

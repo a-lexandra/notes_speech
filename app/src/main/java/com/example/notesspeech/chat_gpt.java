@@ -22,9 +22,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.core5.http.HttpRequest;
-import org.apache.hc.core5.http.HttpResponse;
+//import org.apache.hc.client5.http.classic.HttpClient;
+//import org.apache.hc.core5.http.HttpRequest;
+//import org.apache.hc.core5.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,12 +39,12 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.*;
-import okhttp3.Request.Builder;
+//import okhttp3.Request;
 
 
 public class chat_gpt extends AppCompatActivity {
 
-    public void sendOpenAIRequest() {
+    /*public void sendOpenAIRequest() {
         String apiKey = System.getenv("OPENAI_API_KEY");
 
         if (apiKey == null || apiKey.isEmpty()) {
@@ -54,19 +54,16 @@ public class chat_gpt extends AppCompatActivity {
 
         OkHttpClient client = new OkHttpClient();
 
-        String json = """
-        {
-            "model": "gpt-3.5-turbo",
-            "messages": [
-                {
-                    "role": "user",
-                    "content": "Summarize the following text"
-                }
-            ]
-        }
-        """;
+        HashMap <String, String> innerData = new HashMap<>();
+        innerData.put("role", "user");
+        innerData.put("content", "Summarize the following text");
+        innerData.put("speechText", "sdhfgsdh");
 
-        RequestBody body = RequestBody.create(json, MediaType.get("application/json"));
+        HashMap <String, Object> jsonn = new HashMap<>();
+        jsonn.put("model", "gpt-3.5-turbo");
+        jsonn.put("messages", innerData);
+
+        RequestBody body = RequestBody.create(jsonn, MediaType.get("application/json"));
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
                 .addHeader("Authorization", "Bearer " + apiKey)
@@ -89,7 +86,7 @@ public class chat_gpt extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
 
 

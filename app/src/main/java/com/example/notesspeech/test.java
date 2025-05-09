@@ -1,75 +1,78 @@
 package com.example.notesspeech;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 public class test extends AppCompatActivity {
-
-    private OpenAIService openAIService;
-    private TextView text;
-    private TextView summary;
+    TextInputEditText inputText;
+    Button submit;
+    String text;
+    TextView errorMsg;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_test);
 
-        openAIService = new OpenAIService();
-        text = (TextView) findViewById(R.id.summaryTEST);
-        summary = findViewById(R.id.summaryTEST);
+        inputText = findViewById(R.id.texttest);
+        submit = findViewById(R.id.buttontest);
+        errorMsg = findViewById(R.id.errortest);
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                text = String.valueOf(inputText.getText());
 
-        Button buttonTest = findViewById(R.id.buttonTEST);
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                String url="http://10.200.3.77/login/text.php";
 
-        buttonTest.setOnClickListener(v -> {
-            String msg = String.valueOf(text);
-            if(!msg.isEmpty()){
-                openAIService.sendMessage(msg, new Callback() {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.equals("success")){
+                                    Toast.makeText(getApplicationContext(), "Successfully saved text", Toast.LENGTH_SHORT).show();
+
+                                } else {
+                                    errorMsg.setText(response);
+                                    errorMsg.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
                     @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        runOnUiThread(() -> summary.setText("Error: " + e.getMessage()));
+                    public void onErrorResponse(VolleyError error) {
+                        errorMsg.setText(error.getLocalizedMessage());
+                        errorMsg.setVisibility(View.VISIBLE);
                     }
-
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                        String responseBody = response.body().string();
-                        runOnUiThread(()-> summary.setText(parseResponse(responseBody)));
+                }){
+                    protected Map<String, String> getParams(){
+                        Map<String, String> paramV = new HashMap<>();
+                        paramV.put("text", text);
+                        return paramV;
                     }
-                });
+                };
+                queue.add(stringRequest);
             }
         });
-    }
-
-
-    private String parseResponse(String responseBody){
-        try{
-            JsonObject jsonObject = new JsonObject();
-            JsonArray choices = jsonObject.getAsJsonArray("choices");
-
-            if(choices != null && choices.size()>0){
-                return choices.get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
-            }
-        } catch (Exception e){
-            return "Error parsing response";
-        }
-        return "No response from AI";
     }
 }
