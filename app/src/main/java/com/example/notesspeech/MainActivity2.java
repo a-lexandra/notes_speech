@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    private final int record=1;
+    private final int record = 1;
     ImageView image;
     TextView text;
     Button summaryBtn;
@@ -43,7 +43,7 @@ public class MainActivity2 extends AppCompatActivity {
     private TextView summary = findViewById(R.id.summary);
     private String stringURLEndPoint = "https://api.openai.com/v1/chat/completions";
     private String stringAPIKey = "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";
-    private String stringOutput="";
+    private String stringOutput = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
-        image.setOnClickListener(new View.OnClickListener() {
+        /*image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -96,7 +96,15 @@ public class MainActivity2 extends AppCompatActivity {
                 break;
             }
         }
-    }
+    }*/
+
+
+
+
+
+
+
+
 
 
     /*public void chatGPT(View view){
@@ -159,4 +167,5 @@ public class MainActivity2 extends AppCompatActivity {
 
         Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
     }*/
+    }
 }

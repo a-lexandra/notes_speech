@@ -45,6 +45,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("com.google.code.gson:gson:2.11.0")
     implementation ("com.android.volley:volley:1.2.1")
+    implementation("org.json:json:20250107")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.5-alpha1")
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+
 
 
 }

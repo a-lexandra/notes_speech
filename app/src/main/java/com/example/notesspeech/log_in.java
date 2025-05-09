@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class log_in extends AppCompatActivity {
 
@@ -64,49 +65,61 @@ public class log_in extends AppCompatActivity {
             public void onClick(View v) {
                 errorMsg.setVisibility(View.GONE);
                 loading.setVisibility(View.VISIBLE);
-                email = String.valueOf((inputEmail.getText()));
-                password = String.valueOf(inputPassword.getText());
+
+                email = Objects.requireNonNull(inputEmail.getText()).toString().trim();  // Fixing getText() usage
+                password = Objects.requireNonNull(inputPassword.getText()).toString().trim();
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    loading.setVisibility(View.GONE);
+                    errorMsg.setText("Please enter both email and password.");
+                    errorMsg.setVisibility(View.VISIBLE);
+                    return;
+                }
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://10.200.3.145/login/login.php";
+                String url = "http://10.200.3.145/login/login.php"; // Use HTTPS if possible
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 loading.setVisibility(View.GONE);
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
-                                    String status  = jsonObject.getString("status");
-                                    String message = jsonObject.getString("message");
+                                    String status = jsonObject.getString("status");
 
-                                    if(status.equals("success")){
+                                    if (status.equals("success")) {
                                         name = jsonObject.getString("name");
                                         email = jsonObject.getString("email");
-                                       // apiKey = jsonObject.getString("apiKey");
+
                                         SharedPreferences.Editor editor = preferences.edit();
                                         editor.putString("logged in", "true");
                                         editor.putString("name", name);
                                         editor.putString("email", email);
-                                      //  editor.putString("apiKey", apiKey);
                                         editor.apply();
+
                                         Intent intent = new Intent(getApplicationContext(), home_page.class);
                                         startActivity(intent);
                                         finish();
+                                    } else {
+                                        errorMsg.setText("Login failed. Please check your credentials.");
+                                        errorMsg.setVisibility(View.VISIBLE);
                                     }
                                 } catch (JSONException e) {
-                                    throw new RuntimeException(e);
+                                    errorMsg.setText("Error parsing response.");
+                                    errorMsg.setVisibility(View.VISIBLE);
                                 }
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         loading.setVisibility(View.GONE);
-                        errorMsg.setText(error.getLocalizedMessage());
+                        errorMsg.setText("Network error: " + error.getLocalizedMessage());
                         errorMsg.setVisibility(View.VISIBLE);
                     }
-                }){
-                    protected Map<String, String> getParams(){
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
                         Map<String, String> paramV = new HashMap<>();
                         paramV.put("email", email);
                         paramV.put("password", password);
@@ -116,5 +129,6 @@ public class log_in extends AppCompatActivity {
                 queue.add(stringRequest);
             }
         });
+
     }
 }

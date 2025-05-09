@@ -22,11 +22,15 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -34,14 +38,89 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import okhttp3.*;
+import okhttp3.Request.Builder;
+
 
 public class chat_gpt extends AppCompatActivity {
-    private OpenAIService openAIService;
+
+    public void sendOpenAIRequest() {
+        String apiKey = System.getenv("OPENAI_API_KEY");
+
+        if (apiKey == null || apiKey.isEmpty()) {
+            System.err.println("API key is missing. Please set the OPENAI_API_KEY environment variable.");
+            return;
+        }
+
+        OkHttpClient client = new OkHttpClient();
+
+        String json = """
+        {
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "Summarize the following text"
+                }
+            ]
+        }
+        """;
+
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json"));
+        Request request = new Request.Builder()
+                .url("https://api.openai.com/v1/chat/completions")
+                .addHeader("Authorization", "Bearer " + apiKey)
+                .addHeader("Content-Type", "application/json")
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    System.out.println(response.body().string());
+                } else {
+                    System.err.println("Request failed: " + response.code());
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private OpenAIService openAIService;
     private TextView text;
     private TextView summary;
-    /*private String stringURLEndPoint = "https://api.openai.com/v1/chat/completions";
+    *//*private String stringURLEndPoint = "https://api.openai.com/v1/chat/completions";
     private String stringAPIKey = "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";
-    private String stringOutput="";*/
+    private String stringOutput="";*//*
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +183,18 @@ public class chat_gpt extends AppCompatActivity {
             return "Error parsing response";
         }
         return "No response from AI";
-    }
+    }*/
+
+
+
+
+
+
+
+
+
+
+
 
     /*public void chatGPT(View view){
         JSONObject jsonObject = new JSONObject();
