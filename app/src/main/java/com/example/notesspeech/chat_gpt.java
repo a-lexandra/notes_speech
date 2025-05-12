@@ -1,51 +1,25 @@
 package com.example.notesspeech;
 
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-//import org.apache.hc.client5.http.classic.HttpClient;
-//import org.apache.hc.core5.http.HttpRequest;
-//import org.apache.hc.core5.http.HttpResponse;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.*;
-//import okhttp3.Request;
 
 
 public class chat_gpt extends AppCompatActivity {
 
-    /*public void sendOpenAIRequest() {
-        String apiKey = System.getenv("OPENAI_API_KEY");
+    public void sendOpenAIRequest() {
+        String apiKey = "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";
 
         if (apiKey == null || apiKey.isEmpty()) {
             System.err.println("API key is missing. Please set the OPENAI_API_KEY environment variable.");
@@ -56,14 +30,14 @@ public class chat_gpt extends AppCompatActivity {
 
         HashMap <String, String> innerData = new HashMap<>();
         innerData.put("role", "user");
-        innerData.put("content", "Summarize the following text");
-        innerData.put("speechText", "sdhfgsdh");
+        innerData.put("content", "Tell me a joke");
+        //innerData.put("speechText", "sdhfgsdh");
 
         HashMap <String, Object> jsonn = new HashMap<>();
         jsonn.put("model", "gpt-3.5-turbo");
         jsonn.put("messages", innerData);
 
-        RequestBody body = RequestBody.create(jsonn, MediaType.get("application/json"));
+        RequestBody body = RequestBody.create(String.valueOf(jsonn), MediaType.get("application/json"));
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
                 .addHeader("Authorization", "Bearer " + apiKey)
@@ -79,14 +53,16 @@ public class chat_gpt extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                Log.d("OpenAI", "triggered");
                 if (response.isSuccessful()) {
-                    System.out.println(response.body().string());
+                    //System.out.println(response.body().string());
+                    Log.d("OpenAI", response.body().string());
                 } else {
                     System.err.println("Request failed: " + response.code());
                 }
             }
         });
-    }*/
+    }
 
 
 
