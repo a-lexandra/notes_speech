@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class create_account extends AppCompatActivity {
 
-    //flatter -> android studio
+    //flutter -> android studio
     //dart programming language
     //created a web page i think
     //wants to create an android app

@@ -6,6 +6,10 @@ android {
     namespace = "com.example.notesspeech"
     compileSdk = 34
 
+    packagingOptions{
+        exclude("META-INF/DEPENDENCIES")
+    }
+
     defaultConfig {
         applicationId = "com.example.notesspeech"
         minSdk = 25
@@ -48,6 +52,7 @@ dependencies {
     implementation("org.json:json:20250107")
     //implementation("org.apache.httpcomponents.client5:httpclient5:5.5-alpha1")
     //implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation ("com.openai:openai-java:1.6.1")
 
 
 

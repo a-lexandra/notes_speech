@@ -57,13 +57,13 @@ public class MainActivity2 extends AppCompatActivity {
         summaryBtn = findViewById(R.id.summaryBtn);
         save = findViewById(R.id.save);
 
-        /*summaryBtn.setOnClickListener(new View.OnClickListener() {
+        summaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent start = new Intent(MainActivity2.this, chat_gpt.class);
                 startActivity(start);
             }
-        });*/
+        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override

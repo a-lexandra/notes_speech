@@ -4,6 +4,15 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.openai.client.OpenAIClient;
+//import com.openai.OpenAIClient;
+//import com.openai.api.CompletionRequest;
+//import com.openai.api.CompletionResponse;
+import com.openai.client.okhttp.OpenAIOkHttpClient;
+//import com.openai.models.responses.Response;
+import com.openai.models.responses.ResponseCreateParams;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -16,7 +25,46 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class chat_gpt extends AppCompatActivity {
+public class chat_gpt extends AppCompatActivity/* implements chat_gpt1*/ {
+
+    //public static final String API_KEY = "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";
+
+
+    /*public static String summarizeText(String inputText) {
+        OpenAIClient client = OpenAIOkHttpClient.builder()
+                .apiKey(API_KEY)
+                .build();
+
+        ResponseCreateParams params = ResponseCreateParams.builder()
+                .model("gpt-4")
+                .input("Summarize: " + inputText)
+                .build();
+        Response response = client.responses().create(params);
+        return response.toString();
+    }
+
+    @Override
+    public void asdf() {
+        try {
+            new Thread(() -> {
+                String aa = summarizeText("OpenAI, Inc. is an American artificial intelligence (AI) research organization founded in December 2015 and headquartered in San Francisco, California. It aims to develop \"safe and beneficial\" artificial general intelligence (AGI), which it defines as \"highly autonomous systems that outperform humans at most economically valuable work\". As a leading organization in the ongoing AI boom, OpenAI is known for the GPT family of large language models, the DALL-E series of text-to-image models, and a text-to-video model named Sora. Its release of ChatGPT in November 2022 has been credited with catalyzing widespread interest in generative AI.");
+                System.out.println("aa = " + aa);
+                Log.d("SUMMARY", "aa = " + aa);
+            }).start();
+        } catch (Exception e){
+            Log.d("ERROR", "Failed to summarize", e);
+        }
+
+
+    }*/
+
+
+
+
+
+
+
+
 
     public void sendOpenAIRequest() {
         String apiKey = "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";
@@ -33,11 +81,14 @@ public class chat_gpt extends AppCompatActivity {
         innerData.put("content", "Tell me a joke");
         //innerData.put("speechText", "sdhfgsdh");
 
-        HashMap <String, Object> jsonn = new HashMap<>();
+        HashMap<String, Object> jsonn = new HashMap<>();
         jsonn.put("model", "gpt-3.5-turbo");
         jsonn.put("messages", innerData);
 
-        RequestBody body = RequestBody.create(String.valueOf(jsonn), MediaType.get("application/json"));
+        Gson gson = new Gson();
+        String jsonBody = gson.toJson(jsonn);
+
+        RequestBody body = RequestBody.create(jsonBody, MediaType.get("application/json"));
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
                 .addHeader("Authorization", "Bearer " + apiKey)
@@ -55,7 +106,7 @@ public class chat_gpt extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d("OpenAI", "triggered");
                 if (response.isSuccessful()) {
-                    //System.out.println(response.body().string());
+                    System.out.println(response.body().string());
                     Log.d("OpenAI", response.body().string());
                 } else {
                     System.err.println("Request failed: " + response.code());
