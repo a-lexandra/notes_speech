@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="babyBlue">#89CFF0</color>
+    <color name="azure">#F0FFFF</color>
+    <color name="lightBlue">#ADD8E6</color>
+    <color name="pastelBlue">#A7C7E7</color>
+    <color name="powderBlue">#B6D0E2</color>
+    <color name="skyBlue">#87CEEB</color>
+    <color name="royaleBlue">#4169E1</color>
 </resources>

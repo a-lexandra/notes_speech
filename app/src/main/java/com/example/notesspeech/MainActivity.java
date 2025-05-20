@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button test = findViewById(R.id.test);
+
+        test.setVisibility(View.INVISIBLE);
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

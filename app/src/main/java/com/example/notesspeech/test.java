@@ -23,10 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class test extends AppCompatActivity {
-    TextInputEditText inputText;
-    Button submit;
-    String text;
-    TextView errorMsg;
+    TextView text;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,45 +31,11 @@ public class test extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_test);
 
-        inputText = findViewById(R.id.texttest);
-        submit = findViewById(R.id.buttontest);
-        errorMsg = findViewById(R.id.errortest);
+        text = findViewById(R.id.test);
+        Intent intent = getIntent();
+        String test = intent.getStringExtra("test");
+        text.setText(test);
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text = String.valueOf(inputText.getText());
 
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url="http://10.200.3.77/login/text.php";
-
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                if(response.equals("success")){
-                                    Toast.makeText(getApplicationContext(), "Successfully saved text", Toast.LENGTH_SHORT).show();
-
-                                } else {
-                                    errorMsg.setText(response);
-                                    errorMsg.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        errorMsg.setText(error.getLocalizedMessage());
-                        errorMsg.setVisibility(View.VISIBLE);
-                    }
-                }){
-                    protected Map<String, String> getParams(){
-                        Map<String, String> paramV = new HashMap<>();
-                        paramV.put("text", text);
-                        return paramV;
-                    }
-                };
-                queue.add(stringRequest);
-            }
-        });
     }
 }

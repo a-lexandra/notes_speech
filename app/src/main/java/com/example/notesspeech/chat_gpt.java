@@ -5,16 +5,16 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.openai.client.OpenAIClient;
 //import com.openai.OpenAIClient;
 //import com.openai.api.CompletionRequest;
 //import com.openai.api.CompletionResponse;
-import com.openai.client.okhttp.OpenAIOkHttpClient;
 //import com.openai.models.responses.Response;
-import com.openai.models.responses.ResponseCreateParams;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,7 +25,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class chat_gpt extends AppCompatActivity/* implements chat_gpt1*/ {
+public class chat_gpt /*extends AppCompatActivity*//* implements chat_gpt1*/ {
 
     //public static final String API_KEY = "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";
 
@@ -61,29 +61,42 @@ public class chat_gpt extends AppCompatActivity/* implements chat_gpt1*/ {
 
 
 
+    //String text = "Android is an operating system based on a modified version of the Linux kernel and other open-source software, designed primarily for touchscreen-based mobile devices such as smartphones and tablets";
+
+    public String summaryText;
+    public String sendOpenAIRequest(String text) {
 
 
+        //MainActivity2 mainActivity2 = new MainActivity2();
+        //String text = mainActivity2.getText().toString();
+
+        //String text = "Android is an operating system based on a modified version of the Linux kernel and other open-source software, designed primarily for touchscreen-based mobile devices such as smartphones and tablets";
 
 
+        //String apiKey = "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";
 
-    public void sendOpenAIRequest() {
-        String apiKey = "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";
-
-        if (apiKey == null || apiKey.isEmpty()) {
+        /*if (apiKey == null || apiKey.isEmpty()) {
             System.err.println("API key is missing. Please set the OPENAI_API_KEY environment variable.");
-            return;
-        }
+            return apiKey;
+        }*/
 
         OkHttpClient client = new OkHttpClient();
 
+        List<Map<String, String>> messages = new ArrayList<>();
+
+        String summary = "Summarize the following text: " + text;
+        // Summarize the following text: Android is an operating system based on a modified version of the Linux kernel and other open-source software, designed primarily for touchscreen-based mobile devices such as smartphones and tablets
+
         HashMap <String, String> innerData = new HashMap<>();
         innerData.put("role", "user");
-        innerData.put("content", "Tell me a joke");
+        innerData.put("content", summary);
         //innerData.put("speechText", "sdhfgsdh");
+
+        messages.add(innerData);
 
         HashMap<String, Object> jsonn = new HashMap<>();
         jsonn.put("model", "gpt-3.5-turbo");
-        jsonn.put("messages", innerData);
+        jsonn.put("messages", messages);
 
         Gson gson = new Gson();
         String jsonBody = gson.toJson(jsonn);
@@ -91,7 +104,7 @@ public class chat_gpt extends AppCompatActivity/* implements chat_gpt1*/ {
         RequestBody body = RequestBody.create(jsonBody, MediaType.get("application/json"));
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
-                .addHeader("Authorization", "Bearer " + apiKey)
+                .addHeader("Authorization", "Bearer apiKey")
                 .addHeader("Content-Type", "application/json")
                 .post(body)
                 .build();
@@ -101,19 +114,32 @@ public class chat_gpt extends AppCompatActivity/* implements chat_gpt1*/ {
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
             }
-
+            //String summary;
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 Log.d("OpenAI", "triggered");
                 if (response.isSuccessful()) {
-                    System.out.println(response.body().string());
-                    Log.d("OpenAI", response.body().string());
+                    try {
+                        System.out.println(response.body().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //Log.d("OpenAI", response.body().string());
+                    summaryText = String.valueOf(response.body());
+
                 } else {
                     System.err.println("Request failed: " + response.code());
                 }
             }
+
         });
+
+        return summaryText;
     }
+
+
+    //public String getSummary(){ return summaryText;}
+
 
 
 

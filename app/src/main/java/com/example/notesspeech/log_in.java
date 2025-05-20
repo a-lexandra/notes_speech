@@ -60,13 +60,21 @@ public class log_in extends AppCompatActivity {
             finish();
         }
 
+        /*submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(log_in.this, MainActivity2.class);
+                startActivity(intent);
+            }
+        });*/
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 errorMsg.setVisibility(View.GONE);
                 loading.setVisibility(View.VISIBLE);
 
-                email = Objects.requireNonNull(inputEmail.getText()).toString().trim();  // Fixing getText() usage
+                email = Objects.requireNonNull(inputEmail.getText()).toString().trim();
                 password = Objects.requireNonNull(inputPassword.getText()).toString().trim();
 
                 if (email.isEmpty() || password.isEmpty()) {
@@ -77,7 +85,7 @@ public class log_in extends AppCompatActivity {
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://10.200.3.145/login/login.php"; // Use HTTPS if possible
+                String url = "http://10.200.2.226/login/login.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {

@@ -23,28 +23,34 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-public class home_page extends AppCompatActivity {
-
+public class save_note extends AppCompatActivity {
     TextView text;
     Button save;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_save_note);
 
-        text = findViewById(R.id.summary);
+        text = findViewById(R.id.note);
         save = findViewById(R.id.save);
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(home_page.this, notes.class);
-                startActivity(intent);
-            }
-        });
+        Intent intent = getIntent();
+        String str = intent.getStringExtra("summary");
+        text.setText(str);
 
-        /*save.setOnClickListener(new View.OnClickListener() {
+        String speechText = String.valueOf(text.getText());
+
+        chat_gpt chatGpt = new chat_gpt();
+        String summary = chatGpt.sendOpenAIRequest(speechText);
+        //String summary = chatGpt.summaryText;
+
+        //String summary = chatGpt.getSummary();
+        text.setText(summary);
+
+
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -77,7 +83,6 @@ public class home_page extends AppCompatActivity {
                 };
                 queue.add(stringRequest);
             }
-
-        });*/
+        });
     }
 }

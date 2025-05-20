@@ -12,6 +12,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/summary"
+        android:text="Android is a mobile operating system based on a modified Linux kernel and open-source software, designed mainly for touchscreen devices like smartphones and tablets."
+        android:textSize="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:id="@+id/save"
+        android:text="Save"
+        android:textSize="20dp"
+        android:layout_marginTop="50dp"/>
+    
+
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/name"
         android:text="name"
         android:layout_marginStart="20dp"
@@ -34,6 +52,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logout"
-        />
+        />-->
 
 </LinearLayout>

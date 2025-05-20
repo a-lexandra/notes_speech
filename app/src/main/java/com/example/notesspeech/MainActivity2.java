@@ -2,9 +2,7 @@ package com.example.notesspeech;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.Button;
@@ -14,21 +12,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,13 +28,18 @@ public class MainActivity2 extends AppCompatActivity {
     private final int record = 1;
     ImageView image;
     TextView text;
-    Button summaryBtn, save;
+    Button summaryBtn, save, test;
 
     //chatgpt summary
     /*private TextView summary = findViewById(R.id.summary);
     private String stringURLEndPoint = "https://api.openai.com/v1/chat/completions";
     private String stringAPIKey = "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";
     private String stringOutput = "";*/
+
+    public TextView getText(){
+        return text;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +50,38 @@ public class MainActivity2 extends AppCompatActivity {
         image = findViewById(R.id.image);
         summaryBtn = findViewById(R.id.summaryBtn);
         save = findViewById(R.id.save);
+        test = findViewById(R.id.testBtn);
+
+        //save.setVisibility(View.INVISIBLE);
+        //summaryBtn.setVisibility(View.INVISIBLE);
+
+
+        /*test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                *//*String testTxt = text.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), test.class);
+                intent.putExtra("test", testTxt);
+                startActivity(intent)*//*;
+
+                Intent intent2 = new Intent(MainActivity2.this, notes.class);
+                startActivity(intent2);
+            }
+        });*/
+
 
         summaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent start = new Intent(MainActivity2.this, chat_gpt.class);
-                startActivity(start);
+                /*String speechText = text.getText().toString();
+
+                chat_gpt myAI = new chat_gpt();
+                myAI.sendOpenAIRequest(speechText);*/
+
+                String speechText = text.getText().toString();
+                Intent intentN = new Intent(getApplicationContext(), save_note.class);
+                intentN.putExtra("summary", speechText);
+                startActivity(intentN);
             }
         });
 
@@ -71,7 +91,7 @@ public class MainActivity2 extends AppCompatActivity {
                 //text = String.valueOf(inputText.getText());
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url="http://10.200.3.77/login/text.php";
+                String url="http://192.168.100.13/login/text.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
@@ -108,11 +128,14 @@ public class MainActivity2 extends AppCompatActivity {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            //    intent.putExtra(RecognizerIntent.EXTRA_ENABLE_LANGUAGE_DETECTION, true);
+            //    intent.putExtra(RecognizerIntent.EXTRA_ENABLE_LANGUAGE_SWITCH, true);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_DETECTION_ALLOWED_LANGUAGES,"ro-RO");
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
             //    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ro-RO");
-                intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 100000);
-            //    intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000);
-                intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 100000);
+            //    intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 100000);
+                intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 10000000);
+                intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 10000000);
 
                 try{
                     startActivityForResult(intent, record);

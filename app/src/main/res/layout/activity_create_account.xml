@@ -7,13 +7,15 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".create_account">
+    tools:context=".create_account"
+    android:background="@color/azure">
 
 
     <TextView
         android:layout_width="269dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:textColor="@color/skyBlue"
         android:text="CREATE ACCOUNT"
         android:textSize="30dp"
         android:textStyle="bold"

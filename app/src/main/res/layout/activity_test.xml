@@ -9,32 +9,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/texttest"
-            android:hint="Enter text"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/errortest"
-        android:text="error saving text"
-        android:visibility="gone"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttontest"
-        android:text="Enter"/>
+        android:id="@+id/test"
+        android:textSize="40sp"
+        android:text=""/>
 
 </LinearLayout>
