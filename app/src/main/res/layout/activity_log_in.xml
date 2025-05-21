@@ -49,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/password"
+            android:textColor="@color/royaleBlue"
             android:hint="Enter psassword"/>
     </com.google.android.material.textfield.TextInputLayout>
     

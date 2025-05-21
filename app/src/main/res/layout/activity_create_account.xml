@@ -33,6 +33,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/royaleBlue"
             android:id="@+id/name"
             android:hint="Enter name"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -46,6 +47,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/royaleBlue"
             android:id="@+id/email"
             android:hint="Enter email"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -60,6 +62,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/royaleBlue"
             android:id="@+id/password"
             android:hint="Enter psassword"/>
     </com.google.android.material.textfield.TextInputLayout>

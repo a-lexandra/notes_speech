@@ -85,7 +85,7 @@ public class log_in extends AppCompatActivity {
                 }
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://10.200.2.226/login/login.php";
+                String url = "http://192.168.100.13/login/login.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {

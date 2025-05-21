@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".notes"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/azure">
 
     <TextView
         android:id="@+id/title"

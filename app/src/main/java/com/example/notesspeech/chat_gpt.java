@@ -1,6 +1,7 @@
 package com.example.notesspeech;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +11,12 @@ import com.google.gson.Gson;
 //import com.openai.api.CompletionResponse;
 //import com.openai.models.responses.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +24,7 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -61,11 +68,19 @@ public class chat_gpt /*extends AppCompatActivity*//* implements chat_gpt1*/ {
 
 
 
+
+
     //String text = "Android is an operating system based on a modified version of the Linux kernel and other open-source software, designed primarily for touchscreen-based mobile devices such as smartphones and tablets";
 
     public String summaryText;
-    public String sendOpenAIRequest(String text) {
 
+    public boolean responseReceived;
+    public void sendOpenAIRequest(String text) {
+
+
+
+
+        responseReceived = false;
 
         //MainActivity2 mainActivity2 = new MainActivity2();
         //String text = mainActivity2.getText().toString();
@@ -74,11 +89,12 @@ public class chat_gpt /*extends AppCompatActivity*//* implements chat_gpt1*/ {
 
 
         //String apiKey = "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";
+        String apiKey = "[myApiKey]";
 
-        /*if (apiKey == null || apiKey.isEmpty()) {
+        if (apiKey == null || apiKey.isEmpty()) {
             System.err.println("API key is missing. Please set the OPENAI_API_KEY environment variable.");
-            return apiKey;
-        }*/
+            //return apiKey;
+        }
 
         OkHttpClient client = new OkHttpClient();
 
@@ -104,10 +120,12 @@ public class chat_gpt /*extends AppCompatActivity*//* implements chat_gpt1*/ {
         RequestBody body = RequestBody.create(jsonBody, MediaType.get("application/json"));
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
-                .addHeader("Authorization", "Bearer apiKey")
+                .addHeader("Authorization", "Bearer [myApiKey]")
                 .addHeader("Content-Type", "application/json")
                 .post(body)
                 .build();
+
+
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -116,29 +134,50 @@ public class chat_gpt /*extends AppCompatActivity*//* implements chat_gpt1*/ {
             }
             //String summary;
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call call, Response response) throws IOException{
                 Log.d("OpenAI", "triggered");
                 if (response.isSuccessful()) {
+                    //byte[] binaryData = response.body().bytes();
+                    //String textResult = new String(binaryData, StandardCharsets.UTF_8);
+                    //System.out.println(textResult);
+                    //System.out.println(response.body().string());
+                    //Log.d("OpenAI", response.body().string());
+                    //summaryText = String.valueOf(response.body());
+
+                    String textResp = response.body().string();
+
+                    JSONObject jsonResponse = null;
                     try {
-                        System.out.println(response.body().string());
-                    } catch (IOException e) {
+                        jsonResponse = new JSONObject(textResp);
+                        JSONArray choices = jsonResponse.getJSONArray("choices");
+                        if (choices.length() > 0) {
+                            JSONObject choice = choices.getJSONObject(0);
+                            JSONObject message = choice.getJSONObject("message");
+                            summaryText = message.getString("content");
+                            responseReceived = true;
+                        } else {
+                            throw new IOException("No choices in response");
+                        }
+                    } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
-                    //Log.d("OpenAI", response.body().string());
-                    summaryText = String.valueOf(response.body());
+
 
                 } else {
                     System.err.println("Request failed: " + response.code());
                 }
+
+
+
             }
 
         });
 
-        return summaryText;
+        //return summaryText;
     }
 
 
-    //public String getSummary(){ return summaryText;}
+        //public String getSummary(){ return summaryText;}
 
 
 
@@ -307,4 +346,4 @@ public class chat_gpt /*extends AppCompatActivity*//* implements chat_gpt1*/ {
 
         Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
     }*/
-}
+    }

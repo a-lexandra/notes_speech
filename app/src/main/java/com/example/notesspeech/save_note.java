@@ -43,8 +43,15 @@ public class save_note extends AppCompatActivity {
         String speechText = String.valueOf(text.getText());
 
         chat_gpt chatGpt = new chat_gpt();
-        String summary = chatGpt.sendOpenAIRequest(speechText);
-        //String summary = chatGpt.summaryText;
+        chatGpt.sendOpenAIRequest(speechText);
+        while(chatGpt.responseReceived == false){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        String summary = chatGpt.summaryText;
 
         //String summary = chatGpt.getSummary();
         text.setText(summary);

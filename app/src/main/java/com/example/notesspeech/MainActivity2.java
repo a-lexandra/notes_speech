@@ -19,6 +19,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,10 +76,27 @@ public class MainActivity2 extends AppCompatActivity {
         summaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*String speechText = text.getText().toString();
 
-                chat_gpt myAI = new chat_gpt();
-                myAI.sendOpenAIRequest(speechText);*/
+                /*OpenAIClient openAIClient = new OpenAIClient("[myApiKey]");
+                try {
+                    openAIClient.sendMessage("Tell me a joke");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }*/
+
+                //String speechText = text.getText().toString();
+
+                /*chat_gpt myAI = new chat_gpt();
+                myAI.sendOpenAIRequest();
+                while (true){
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }*/
 
                 String speechText = text.getText().toString();
                 Intent intentN = new Intent(getApplicationContext(), save_note.class);

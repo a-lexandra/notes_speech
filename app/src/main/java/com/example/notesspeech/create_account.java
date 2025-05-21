@@ -63,7 +63,7 @@ public class create_account extends AppCompatActivity {
                 password = String.valueOf(inputPassword.getText());
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://10.200.2.226/login/register.php";
+                String url ="http://192.168.100.13/login/register.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
